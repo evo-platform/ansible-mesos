@@ -69,3 +69,23 @@
     - Reload daemon
     - Restart mesos-slave
 
+# == Start and enable service
+- name: Start and enable mesos master service
+  service: name=mesos-master state=started enabled=yes
+  when: mesos_install_mode == "master" or mesos_install_mode == "master-slave"
+
+- name: Start and enable mesos slave service
+  service: name=mesos-slave state=started enabled=yes
+  when: mesos_install_mode == "slave" or mesos_install_mode == "master-slave"
+
+- name: Stop and disable mesos slave on master
+  service: name=mesos-slave state=stopped enabled=no
+  when: mesos_install_mode == "master"
+
+- name: Stop and disable mesos master on slave
+  service: name=mesos-master state=stopped enabled=no
+  when: mesos_install_mode == "slave"
+
+- name: Stop and disable zookeeper on mesos slave
+  service: name=zookeeper state=stopped enabled=no
+  when: mesos_install_mode == "slave"`
