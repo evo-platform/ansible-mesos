@@ -88,4 +88,4 @@
 
 - name: Stop and disable zookeeper on mesos slave
   service: name=zookeeper state=stopped enabled=no
-  when: mesos_install_mode == "slave"`
+  when: mesos_install_mode == "slave"
